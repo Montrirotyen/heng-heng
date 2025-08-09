@@ -2,6 +2,9 @@
   "name": "heng-heng-rad-na-root",
   "private": true,
   "scripts": {
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "dev": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "start": "cd client && npm run start",
+    "lint": "cd client && npm run lint"
   }
 }
