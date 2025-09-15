@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "heng-heng-backend",
   "version": "1.0.0",
   "main": "server.js",
@@ -10,5 +11,14 @@
     "express": "^4.18.2",
     "cors": "^2.8.5",
     "socket.io": "^4.7.5"
+=======
+  "name": "heng-heng",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev --prefix client",
+    "build": "npm run build --prefix client",
+    "start": "npm run start --prefix client",
+    "lint": "npm run lint --prefix client"
+>>>>>>> b7adb0a2283afb9e1f22c5d92767aeeda64bdd07
   }
 }
