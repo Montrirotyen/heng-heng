@@ -5,9 +5,25 @@ const cors = require('cors');
 const path = require('path');
 
 const app = express();
-app.use(cors());
 app.use(express.json());
 
+// ✅ Config CORS ให้รองรับทั้ง dev + production
+const allowedOrigins = [
+  "http://localhost:3000",         // frontend dev
+  "https://heng-heng.onrender.com" // frontend production (Render)
+];
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE"]
+}));
+
+// ✅ เมนูอาหาร (mock data)
 const menuItems = [
   { id: 1, name: 'ราดหน้าหมู', price: 45, type: 'food', options: { เส้น: ['เส้นใหญ่', 'เส้นหมี่', 'บะหมี่กรอบ'], ขนาด: ['ธรรมดา', 'พิเศษ'], เพิ่มเติม: ['ห่อไข่'] } },
   { id: 3, name: 'ราดหน้าทะเล', price: 60, type: 'food', options: { เส้น: ['เส้นใหญ่', 'เส้นหมี่', 'บะหมี่กรอบ'], ขนาด: ['ธรรมดา', 'พิเศษ'], เพิ่มเติม: ['ห่อไข่'] } },
@@ -37,13 +53,15 @@ const menuItems = [
   { id: 28, name: 'น้ำแดงแฟนต้า', price: 20, type: 'drink', options: {} }
 ];
 
+
 let orders = [];
 let orderHistory = [];
 let orderCounter = 1;
 
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: "http://localhost:3000", methods: ["GET", "POST", "PUT"] } });
+const io = new Server(server, { cors: { origin: allowedOrigins, methods: ["GET", "POST", "PUT"] } });
 
+// ✅ Routes
 app.get('/api/menu', (req, res) => res.json(menuItems));
 app.get('/api/orders', (req, res) => res.json(orders));
 app.get('/api/order-history', (req, res) => res.json(orderHistory));
@@ -55,6 +73,7 @@ app.get('/api/orders/table/:tableNumber', (req, res) => {
 app.post('/api/orders', (req, res) => {
   const { tableNumber, items } = req.body;
   if (!tableNumber || !items || items.length === 0) return res.status(400).json({ message: 'ข้อมูลไม่ถูกต้อง' });
+
   const newOrder = { id: orderCounter++, tableNumber, items, createdAt: new Date(), status: 'ใหม่' };
   orders.push(newOrder);
   io.emit('new_order', newOrder);
@@ -83,7 +102,7 @@ app.put('/api/orders/:id/cancel', (req, res) => {
   const { id } = req.params;
   const orderIndex = orders.findIndex(o => o.id === parseInt(id));
   if (orderIndex === -1) return res.status(404).json({ message: 'ไม่พบออเดอร์' });
-  
+
   const order = orders[orderIndex];
   order.status = 'ยกเลิก';
   orderHistory.unshift({ ...order });
@@ -94,12 +113,19 @@ app.put('/api/orders/:id/cancel', (req, res) => {
   res.json({ message: 'ยกเลิกออเดอร์สำเร็จ' });
 });
 
-io.on('connection', (socket) => console.log('A user connected:', socket.id));
+// ✅ Socket.IO
+io.on('connection', (socket) => {
+  console.log('🔌 A user connected:', socket.id);
+});
 
+// ✅ Serve React build (production)
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
-  app.get('*', (req, res) => res.sendFile(path.join(__dirname, '../client/build', 'index.html')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+  });
 }
 
-const PORT = 5050;
-server.listen(PORT, () => console.log(`Server กำลังทำงานที่ http://localhost:${PORT}`));
+// ✅ ใช้ process.env.PORT หรือ fallback เป็น 5050
+const PORT = process.env.PORT || 5050;
+server.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
