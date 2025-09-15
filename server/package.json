@@ -1,7 +1,14 @@
 {
-  "name": "heng-heng-rad-na-root",
-  "private": true,
+  "name": "heng-heng-backend",
+  "version": "1.0.0",
+  "main": "server.js",
   "scripts": {
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "start": "node server.js",
+    "heroku-postbuild": "cd ../client && npm install && npm run build"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "socket.io": "^4.7.5"
   }
 }
