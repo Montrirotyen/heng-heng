@@ -1,0 +1,516 @@
+:root {
+  --primary-color: #4CAF50;
+  --primary-hover-color: #45a049;
+  --secondary-color: #f0f4f8;
+  --text-color: #333;
+  --border-color: #e0e0e0;
+  --card-bg-color: #fff;
+  --shadow-color: rgba(0, 0, 0, 0.08);
+  --status-new-bg: #ffebee;
+  --status-new-color: #c62828;
+  --status-inprogress-bg: #fff3e0;
+  --status-inprogress-color: #ef6c00;
+  --status-completed-bg: #e8f5e9;
+  --status-completed-color: #2e7d32;
+  --button-confirm-bg: #4CAF50;
+  --button-confirm-hover: #45a049;
+  --button-complete-bg: #2196F3;
+  --button-complete-hover: #1976D2;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--card-bg-color);
+  /* border-radius: 12px; */
+  box-shadow: 0 4px 12px var(--shadow-color);
+  min-height: 100vh;
+}
+
+.restaurant-header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px 0;
+  border-bottom: 3px solid var(--primary-color);
+}
+.restaurant-header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+}
+.restaurant-header h3 {
+    color: #888;
+    margin-top: 5px;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.nav-buttons button {
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.nav-buttons button:hover {
+  background-color: var(--primary-hover-color);
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* --- Customer Page Styles --- */
+
+.customer-main-layout {
+  display: grid;
+  grid-template-columns: 200px 1fr 300px; /* Categories, Menu, Cart */
+  gap: 20px;
+}
+
+.menu-category-tabs {
+  padding: 0;
+}
+
+.category-tab-button {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  text-align: left;
+  background-color: #f0f0f0;
+  color: var(--text-color);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.category-tab-button:hover:not(.active) {
+  background-color: #e0e0e0;
+}
+
+.category-tab-button.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+/* Menu Grid (The main focus of this change) */
+.menu-grid {
+  display: grid;
+  /* Desktop: 3 columns */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 50px; /* Space above mobile cart */
+}
+
+.menu-card {
+  background-color: var(--card-bg-color);
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px var(--shadow-color);
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+  text-align: center;
+  border: 1px solid var(--border-color);
+}
+
+.menu-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.menu-info {
+  /* Enforce flex for consistent alignment in a vertical card */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%; 
+}
+
+.menu-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-color);
+  line-height: 1.3;
+}
+
+.menu-price {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  margin-top: 5px;
+}
+
+/* --- Selected Items Sidebar (Desktop Cart) --- */
+
+.selected-items-sidebar {
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.selected-items-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+  max-height: 40vh;
+  overflow-y: auto;
+}
+
+.selected-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px dashed #eee;
+}
+
+.item-details {
+  flex-grow: 1;
+  padding-right: 10px;
+}
+
+.item-controls-right {
+    text-align: right;
+    min-width: 130px; /* Ensure space for controls */
+}
+
+.item-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.control-btn {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  width: 24px;
+  height: 24px;
+  line-height: 1;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.control-btn.minus {
+    background: #FF5252;
+}
+
+.item-quantity {
+  margin: 0 8px;
+  font-weight: 600;
+  min-width: 15px;
+  text-align: center;
+}
+
+.order-button {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: background-color 0.2s;
+  margin-top: 10px;
+}
+
+.order-button:hover:not(:disabled) {
+  background-color: var(--primary-hover-color);
+}
+
+.order-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* --- Modal Styles --- */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.option-group {
+  margin-top: 15px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.option-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--primary-color);
+  font-size: 1.05rem;
+}
+
+.option-group button {
+  padding: 8px 15px;
+  margin: 5px;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  background-color: #f7f7f7;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+  font-size: 0.9rem;
+}
+
+.option-group button.selected {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* --- Status Badges --- */
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-new {
+  background-color: var(--status-new-bg);
+  color: var(--status-new-color);
+}
+
+.status-inprogress {
+  background-color: var(--status-inprogress-bg);
+  color: var(--status-inprogress-color);
+}
+
+.status-completed {
+  background-color: var(--status-completed-bg);
+  color: var(--status-completed-color);
+}
+
+/* --- Kitchen Styles --- */
+
+.kitchen-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.order-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.order-card {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-top: 5px solid var(--status-new-color);
+}
+
+.order-card.inprogress {
+  border-top-color: var(--status-inprogress-color);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.order-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.item-list {
+  list-style: disc;
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+.order-footer {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px dashed #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* --- Mobile Bottom Bar (Cart) --- */
+
+.selected-items-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--card-bg-color);
+  box-shadow: 0 -4px 12px var(--shadow-color);
+  z-index: 500;
+  max-height: 50px;
+  transition: max-height 0.3s ease-in-out;
+  overflow: hidden;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.selected-items-bottom-bar.show {
+  max-height: 80vh; 
+  overflow-y: auto;
+}
+
+.toggle-selected-btn {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.selected-items-content {
+  padding: 0 16px 16px 16px;
+}
+
+/* --- Responsive Design (สำคัญสำหรับการแสดง 2 คอลัมน์บนมือถือ) --- */
+
+@media (max-width: 1000px) {
+    /* Tablet/Smaller Desktop */
+    .customer-main-layout {
+        grid-template-columns: 180px 1fr 280px; /* ปรับขนาด Categories/Cart เล็กลง */
+    }
+}
+
+@media (max-width: 768px) {
+  .app {
+      padding: 10px;
+  }
+  
+  .restaurant-header h1 {
+    font-size: 2rem;
+  }
+  
+  .customer-main-layout {
+    /* Mobile Layout: Categories (Top), Menu (Middle), Sidebar (Hidden/Bottom) */
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  /* Menu Categories (แนวนอนบน Mobile/Tablet) */
+  .menu-category-tabs {
+    order: 1; /* จัดให้อยู่ด้านบน */
+    padding: 0 0 10px 0;
+    margin-bottom: 0;
+    white-space: nowrap;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .menu-category-tabs h4 {
+      display: none;
+  }
+
+  .category-tab-button {
+    display: inline-block;
+    width: auto;
+    text-align: center; 
+    padding: 8px 12px;
+    font-size: 0.95rem;
+    background-color: var(--card-bg-color);
+    border-color: #ddd;
+  }
+  
+  /* Menu Content */
+  .menu-content {
+    order: 2; /* จัดให้อยู่ตรงกลาง */
+    padding: 0 10px;
+  }
+
+  /* Sidebar (Cart) ซ่อนและใช้ Bottom Bar แทน */
+  .selected-items-sidebar {
+    display: none;
+  }
+  
+  /* Menu Grid: 2 ปุ่มต่อแถวสำหรับมือถือ */
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr) !important; 
+    gap: 10px !important;
+  }
+  
+  /* Menu Card: ปรับให้ลงตัวกับ 2 คอลัมน์ */
+  .menu-card {
+    padding: 12px;
+    text-align: center;
+  }
+
+  /* ตะกร้าสินค้าด้านล่าง (Mobile Cart) - ปรับการแสดงผล */
+  .selected-items-bottom-bar {
+      /* ไม่ต้องใช้ transform แล้ว เพราะถูกจัดการด้วย max-height/overflow-y */
+      max-height: 50px; 
+      transition: max-height 0.4s ease-in-out;
+  }
+}
